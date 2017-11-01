@@ -12,7 +12,7 @@ matrix:
       env: ANALYSIS='true'
 
 before_script:
-  - composer update $COMPOSER_ARGS
+  - composer update
 
 script:
   - if [[ "$ANALYSIS" != 'true' ]]; then vendor/bin/phpunit ; fi
