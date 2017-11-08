@@ -16,7 +16,7 @@ before_script:
 
 script:
   - if [[ "$ANALYSIS" != 'true' ]]; then vendor/bin/phpunit ; fi
-  - if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/phpunit --coverage-clover clover.xml ; fi
+  - if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/phpunit --coverage-clover /home/travis/build/mathmarques/teste-software/clover.xml ; fi
 
 after_script:
-  - if [[ "$ANALYSIS" == 'true' ]]; then php vendor/bin/coveralls --coverage_clover=clover.xml -v -r /home/travis/build/mathmarques/teste-software/; fi
+  - if [[ "$ANALYSIS" == 'true' ]]; then php vendor/bin/coveralls --coverage_clover=/home/travis/build/mathmarques/teste-software/clover.xml -v -r=/home/travis/build/mathmarques/teste-software; fi
