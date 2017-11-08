@@ -12,6 +12,7 @@ matrix:
       env: ANALYSIS='true'
 
 before_script:
+  - mkdir -p build/logs
   - composer update
 
 script:
