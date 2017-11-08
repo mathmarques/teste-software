@@ -13,4 +13,4 @@ script:
   - php vendor/bin/phpunit -c phpunit.xml.dist
 
 after_success:
-  - travis_retry php vendor/bin/coveralls -v
+  - travis_retry php vendor/bin/coveralls -v -r /home/travis/build/mathmarques/teste-software/
