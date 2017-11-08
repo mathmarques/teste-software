@@ -10,13 +10,14 @@ matrix:
     - php: 7.0
     - php: 7.1
       env: ANALYSIS='true'
-
+      
 before_script:
   - composer update
 
 script:
+  - mkdir -p build/logs
   - if [[ "$ANALYSIS" != 'true' ]]; then vendor/bin/phpunit ; fi
   - if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/phpunit --coverage-clover clover.xml ; fi
 
 after_script:
-  - if [[ "$ANALYSIS" == 'true' ]]; then php vendor/bin/coveralls -r=./ --coverage_clover=clover.xml -v ; fi
+  - if [[ "$ANALYSIS" == 'true' ]]; then php vendor/bin/coveralls -v ; fi
