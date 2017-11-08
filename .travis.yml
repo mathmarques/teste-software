@@ -20,4 +20,4 @@ script:
   - if [[ "$ANALYSIS" == 'true' ]]; then vendor/bin/phpunit --coverage-clover clover.xml ; fi
 
 after_script:
-  - if [[ "$ANALYSIS" == 'true' ]]; then php vendor/bin/coveralls -v -r=./ ; fi
+  - if [[ "$ANALYSIS" == 'true' ]]; then php vendor/bin/coveralls -v -r=./app/src/ ; fi
