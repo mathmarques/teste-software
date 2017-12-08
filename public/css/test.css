@@ -4,8 +4,12 @@ body {
 	background: url("../img/concrete_seamless.png") repeat repeat;
 }
 
+.CodeMirror {
+    border: 1px solid #eee;
+}
+
 .container {
-	width: 900px;
+	width: 1100px;
 }
 
 .content {

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Library\UnitProcessor;
 use Interop\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -18,32 +19,47 @@ class HomeController
 
     public function indexAction(Request $request, Response $response, $args)
     {
-        if ($request->isPost()) {
-            
-        }
+        if(isset($_SESSION['id'])) {
+            $unitProcessor = new UnitProcessor($this->container->get('settings')['phpunit'], $_SESSION['id']);
+            $files = $unitProcessor->getUserCode();
+            $this->container->get('view')['code'] = $files['main'];
+            $this->container->get('view')['testCode'] = $files['test'];
+        } else {
+            $this->container->get('view')['code'] = <<<'CODE'
+<?php
 
-        return $this->container->get('view')->render($response, 'confirmar.tpl');
-    }
+class Main {
 
-    public function confirmadoAction(Request $request, Response $response, $args)
+	public function exemplo($var) {
+		if($var)
+			return 2;
+		else
+			return 1;
+	}
+
+}
+CODE;
+
+            $this->container->get('view')['testCode'] = <<<'CODE'
+<?php
+use PHPUnit\Framework\TestCase;
+
+require('Main.php'); //Não remova isto
+
+class MainTest extends TestCase
+{
+    public function testExemplo()
     {
-        $inputs = $request->getParsedBody();
-        $inputs['time'] = time();
+        $teste = new Main(); //Nome da Classe
 
-        $fileName = $this->container->get('settings')['jsons'] ."/". $inputs['matricula'] . $inputs['cpf'] . ".json";
-
-        if(file_exists($fileName)) {
-            $json_file = @file_get_contents($fileName);
-            $json_str = json_decode($json_file, true);
-
-            $inputs['older'] = $json_str;
-        }
-
-        if(!@file_put_contents($fileName, json_encode($inputs)))
-            $this->container->get('view')['error'] = 'Erro ao salvar arquivo!';
-
-        return $this->container->get('view')->render($response, 'confirmado.tpl');
+        $this->assertEquals(1, $teste->exemplo(false));
     }
 
+}
+
+CODE;
+        }
+        return $this->container->get('view')->render($response, 'home.tpl');
+    }
 
 }
